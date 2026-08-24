@@ -1,5 +1,0 @@
-.git/
-.wrangler/
-.gitignore
-wrangler.jsonc
-dev.vars
