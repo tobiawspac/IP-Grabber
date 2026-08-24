@@ -1,0 +1,208 @@
+/* =============================================================================
+ * PAGE.CSS - Styly pro hlavni stranku (uvodni text a signaly)
+ * =============================================================================
+ * Tento soubor obsahuje styly pro:
+ *   - Obal stranky (page-wrap)
+ *   - Hlavicku (masthead)
+ *   - Sekce s popisy signalu
+ *   - Tlacitko "Zobrazit vysledky"
+ *   - Paticku
+ * ============================================================================= */
+
+
+/* -----------------------------------------------------------------------------
+ * OBAL STRANKY - Maximalni sirka a centrovani
+ * ----------------------------------------------------------------------------- */
+.page-wrap {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 3.2rem 1.5rem 4rem;
+}
+
+.language-selector {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.language-selector .lang-link {
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  text-decoration: none;
+  margin-right: 0.6rem;
+}
+
+.language-selector .lang-link:hover {
+  text-decoration: underline;
+}
+
+.language-selector .lang-link.active {
+  font-weight: 700;
+}
+
+/* -----------------------------------------------------------------------------
+ * HLAVICKA (MASTHEAD)
+ * ----------------------------------------------------------------------------- */
+.masthead { margin-bottom: 2.6rem; }
+
+/* Kickr - maly nadpis nad hlavnim titulkem */
+.masthead .kicker {
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 0.6rem;
+}
+
+/* Hlavni titulek */
+h1 {
+  font-family: var(--serif);
+  font-size: 2.1rem;
+  line-height: 1.2;
+  margin: 0 0 0.9rem;
+  color: var(--ink);
+}
+
+/* Podtitulek (dek) */
+.dek {
+  font-size: 1.08rem;
+  color: var(--ink-dim);
+  margin: 0;
+  max-width: 60ch;
+}
+
+
+/* =============================================================================
+ * SEKCE S POPISY SIGNALU
+ * =============================================================================
+ * Kazda sekce popisuje jeden typ fingerprintu (IP, canvas, audio, atd.)
+ * ----------------------------------------------------------------------------- */
+.signal {
+  padding: 2.1rem 0;
+  border-top: 1px solid var(--line);
+}
+
+/* Cislo sekce (01, 02, ...) */
+.signal-index {
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  color: var(--ink-faint);
+  margin-bottom: 0.4rem;
+}
+
+/* Nadpis sekce */
+.signal h2 {
+  font-family: var(--serif);
+  font-size: 1.35rem;
+  margin: 0 0 0.7rem;
+  color: var(--ink);
+}
+
+/* Popisny text */
+.signal p { margin: 0 0 0.9rem; color: var(--ink-dim); }
+.signal p:last-of-type { margin-bottom: 0; }
+.signal strong { color: var(--ink); }
+
+
+/* -----------------------------------------------------------------------------
+ * BOX "JAK TO OMEZIT" - Rady pro ochranu soukromi
+ * ----------------------------------------------------------------------------- */
+.mitigation {
+  margin-top: 1rem;
+  padding: 0.9rem 1.1rem;
+  background: var(--paper);
+  border-left: 3px solid var(--ok);
+  border-radius: 0 6px 6px 0;
+}
+
+/* Label "JAK TO OMEZIT" */
+.mitigation .m-label {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--ok);
+  font-weight: 700;
+  margin-bottom: 0.35rem;
+}
+
+/* Text rady */
+.mitigation p { color: var(--ink); font-size: 0.92rem; margin: 0; }
+
+
+/* =============================================================================
+ * REVEAL SEKCE - Tlacitko pro zobrazeni vysledku
+ * ----------------------------------------------------------------------------- */
+.reveal-band {
+  padding: 2.6rem 0 0.4rem;
+  border-top: 2px solid var(--ink);
+  margin-top: 1rem;
+  text-align: center;
+}
+
+.reveal-band h2 {
+  font-family: var(--serif);
+  font-size: 1.5rem;
+  margin: 0 0 0.6rem;
+}
+
+.reveal-band p {
+  color: var(--ink-dim);
+  max-width: 46ch;
+  margin: 0 auto 1.4rem;
+}
+
+
+/* -----------------------------------------------------------------------------
+ * GATE - Placeholder pred spustenim nastroje
+ * Zobrazi se misto nastroje, dokud uzivatel neklikne na tlacitko
+ * ----------------------------------------------------------------------------- */
+#tool-gate {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 90px;
+  border: 1px dashed var(--line-strong);
+  border-radius: 6px;
+  color: var(--ink-faint);
+  font-size: 0.85rem;
+  margin: 0 0 2rem;
+}
+
+
+/* -----------------------------------------------------------------------------
+ * TOOL-ROOT - Kontejner nastroje s vysledky
+ * Skryty dokud neni pridana trida "unlocked"
+ * ----------------------------------------------------------------------------- */
+#tool-root {
+  display: none;
+  margin-top: 1.6rem;
+  text-align: left;
+}
+
+/* Odemknuty stav - zobrazi se nastroj */
+#tool-root.unlocked { display: block; }
+
+
+/* =============================================================================
+ * PATICKA (COLOPHON)
+ * ----------------------------------------------------------------------------- */
+.colophon {
+  margin-top: 3rem;
+  padding-top: 1.4rem;
+  border-top: 1px solid var(--line);
+  font-size: 0.8rem;
+  color: var(--ink-faint);
+  text-align: center;
+}
+
+
+/* =============================================================================
+ * RESPOZIVNI DESIGN - Prizpusobeni pro mobilni zarizeni
+ * ----------------------------------------------------------------------------- */
+@media (max-width: 560px) {
+  .page-wrap { padding: 2.2rem 1.1rem 3rem; }
+  h1 { font-size: 1.7rem; }
+}

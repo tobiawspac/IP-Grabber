@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Co o vás ví váš prohlížeč — a jak to omezit</title>
+<meta name="description" content="Sedm signálů, které váš prohlížeč prozrazuje každé navštívené stránce, co s nimi jde dělat, a na konci — co konkrétně prozrazuje ten váš.">
+<link rel="stylesheet" href="tool.css">
+<link rel="stylesheet" href="page.css">
+</head>
+<body>
+
+<div class="language-selector">
+  <a href="index.html" class="lang-link active">Čeština</a>
+  <a href="index.en.html" class="lang-link">English</a>
+</div>
+
+<!-- =============================================================================
+     PAGE--wrap - Hlavni obal cele stranky
+     Maximalni sirka je omezena v CSS (700px) a obsah je centrovany
+     ============================================================================= -->
+<div class="page-wrap">
+
+  <!-- ==========================================================================
+       MASTHEAD - Hlavicka stranky s titulkem a podtitulkem
+       ========================================================================== -->
+  <header class="masthead">
+    <div class="kicker">device fingerprinting, vysvětleno</div>
+    <h1>Co o vás ví váš prohlížeč</h1>
+    <p class="dek">Žádná stránka se vás nemusí ptát na jméno, aby vás příště poznala. Stačí jí to, co jí prohlížeč řekne sám — bez cookies, bez přihlášení. Tady je sedm věcí, které to obvykle jsou, co s každou jde dělat, a na konci uvidíte přesně to, co prozrazuje ten váš.</p>
+  </header>
+
+  <!-- ==========================================================================
+       SIGNAL SEKCE - Popis jednotlivych typu fingerprintu
+       Kazda sekce ma:
+         - signal-index: Cislo poradi (01, 02, ...)
+         - h2: Nazev signalu
+         - p: Popis co to je a jak funguje
+         - mitigation: Rady jak signal omezit
+       ========================================================================== -->
+
+  <!-- ======= SIGNAL 01: VEREJNA IP ADRESA ======= -->
+  <section class="signal">
+    <div class="signal-index">01</div>
+    <h2>Veřejná IP adresa</h2>
+    <p>Každý server, na který se připojíte, vidí adresu, ze které přicházíte. Z ní se dá odhadnout přibližná poloha (obvykle město nebo kraj) a poskytovatel internetu. Je to nutná součást toho, jak internet funguje — bez ní by se odpověď neměla kam vrátit.</p>
+    <div class="mitigation">
+      <div class="m-label">Jak to omezit</div>
+      <p>VPN nebo Tor nahradí vaši IP adresou serveru, přes který se připojujete. Vezměte v úvahu, že to skryje jen tuhle jednu položku — zbytek signálů níže funguje úplně nezávisle na IP.</p>
+    </div>
+  </section>
+
+  <!-- ======= SIGNAL 02: WEBRTC LEAK ======= -->
+  <section class="signal">
+    <div class="signal-index">02</div>
+    <h2>Lokální IP přes WebRTC</h2>
+    <p>WebRTC (technologie pro videohovory přímo v prohlížeči) si při navazování spojení někdy vymění lokální síťové adresy mezi stranami. V praxi to znamená, že stránka může zjistit vaši lokální IP (např. 192.168.x.x), a v některých případech i vaši reálnou veřejnou IP <strong>i když používáte VPN</strong> — protože WebRTC běží mimo VPN tunel.</p>
+    <div class="mitigation">
+      <div class="m-label">Jak to omezit</div>
+      <p>Firefox: <code>about:config</code> → <code>media.peerconnection.enabled</code> na <code>false</code> (vypne WebRTC úplně, může rozbít video hovory). Chrome/Brave: rozšíření jako "WebRTC Leak Prevent", nebo v Brave zapnout přísnější fingerprinting ochranu v nastavení štítů.</p>
+    </div>
+  </section>
+
+  <!-- ======= SIGNAL 03: CANVAS FINGERPRINT ======= -->
+  <section class="signal">
+    <div class="signal-index">03</div>
+    <h2>Canvas fingerprint</h2>
+    <p>Stránka nechá váš prohlížeč vykreslit neviditelný obrázek (text, tvary) do HTML5 canvasu a přečte si výsledná data pixel po pixelu. Kombinace GPU, ovladačů a operačního systému vykreslí tenhle obrázek pokaždé mírně jinak — a ten drobný rozdíl funguje jako otisk prstu, který nepotřebuje cookies.</p>
+    <div class="mitigation">
+      <div class="m-label">Jak to omezit</div>
+      <p>Firefox má vestavěné <code>privacy.resistFingerprinting</code> (v <code>about:config</code>), Tor Browser to má zapnuté od instalace a navíc canvas výstup lehce znáhodňuje. Brave dělá totéž automaticky. Existují i rozšíření typu CanvasBlocker.</p>
+    </div>
+  </section>
+
+  <!-- ======= SIGNAL 04: AUDIO FINGERPRINT ======= -->
+  <section class="signal">
+    <div class="signal-index">04</div>
+    <h2>Audio fingerprint</h2>
+    <p>Stejný princip jako canvas, jen přes zvuk: prohlížeč vygeneruje a zpracuje krátkou zvukovou vlnu přes Web Audio API, a drobné odchylky ve výsledku (dané hardwarem a software) tvoří další stabilní otisk — člověk nic neslyší, celé se to odehraje potichu na pozadí.</p>
+    <div class="mitigation">
+      <div class="m-label">Jak to omezit</div>
+      <p>Stejná opatření jako u canvasu (resistFingerprinting, Tor Browser, Brave) obvykle pokrývají i audio fingerprint — obě techniky útočí na podobnou vrstvu prohlížeče.</p>
+    </div>
+  </section>
+
+  <!-- ======= SIGNAL 05: NAINSTALOVANE FONTY ======= -->
+  <section class="signal">
+    <div class="signal-index">05</div>
+    <h2>Nainstalované fonty</h2>
+    <p>Stránka vykreslí text v desítkách různých fontů a měří jejich šířku. Pokud font chybí, prohlížeč použije náhradní a šířka se pozná. Sada nainstalovaných fontů bývá dost specifická pro konkrétní počítač — hlavně u profesí, co si instalují spoustu fontů (grafici, sazbaři).</p>
+    <div class="mitigation">
+      <div class="m-label">Jak to omezit</div>
+      <p>Tor Browser normalizuje sadu fontů napříč všemi uživateli, takže tenhle signál přestává být užitečný. Mimo Tor moc jednoduchá obrana není — jde jen o to neinstalovat víc fontů, než potřebujete.</p>
+    </div>
+  </section>
+
+  <!-- ======= SIGNAL 06: GPU PRES WEBGL ======= -->
+  <section class="signal">
+    <div class="signal-index">06</div>
+    <h2>GPU přes WebGL/WebGPU</h2>
+    <p>Prohlížeč umí na dotaz prozradit výrobce a model grafické karty (např. "NVIDIA GeForce RTX 3060") — běžně kvůli optimalizaci her a videa, ale zároveň je to další téměř unikátní údaj o zařízení.</p>
+    <div class="mitigation">
+      <div class="m-label">Jak to omezit</div>
+      <p>Firefox: <code>webgl.disabled</code> v <code>about:config</code> (rozbije stránky, co WebGL potřebují — hry, mapy, 3D vizualizace). Tor Browser blokuje WebGL ve výchozím nastavení.</p>
+    </div>
+  </section>
+
+  <!-- ======= SIGNAL 07: KOMBINOVANY DEVICE ID ======= -->
+  <section class="signal">
+    <div class="signal-index">07</div>
+    <h2>Kombinovaný "device ID"</h2>
+    <p>Žádný z předchozích signálů sám o sobě nemusí být unikátní — spousta lidí má stejnou grafickou kartu. Ale zkombinujte GPU + canvas hash + audio hash + fonty + časové pásmo + rozlišení dohromady, a najednou máte otisk, který sdílí jen málokdo jiný. Přesně tohle dělá "device ID" níže.</p>
+    <div class="mitigation">
+      <div class="m-label">Jak to omezit</div>
+      <p>Žádné jednotlivé opatření to celé nevypne — síla je právě v kombinaci. Nejúčinnější obrana je prohlížeč, který standardizuje co nejvíc signálů najednou pro všechny své uživatele stejně (Tor Browser je v tomhle nejdál), takže se přestanete od ostatních odlišovat.</p>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       REVEAL BAND - Tlacitko pro zobrazeni vysledku
+       Po kliknuti se spusti sbirani dat (viz page.js)
+       ========================================================================== -->
+  <div class="reveal-band">
+    <h2>A co konkrétně prozrazuje ten váš?</h2>
+    <p>Tlačítko níže spustí přesně těch sedm testů popsaných výše, přímo ve vašem prohlížeči. Nic se neposílá nikam kromě dotazu na vaši veřejnou IP (api.ipify.org) — zbytek zůstává jen na této stránce.</p>
+    <div class="reveal-cta">
+      <button id="btn-reveal" class="btn btn-fill">Zobrazit, co o mně tahle stránka zjistí</button>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       TOOL-GATE - Placeholder zobrazeny pred spustenim nastroje
+       Po kliknuti na tlacitko se skryje a nahradi se tool-root
+       ========================================================================== -->
+  <div id="tool-gate">Výsledky se zobrazí zde po kliknutí na tlačítko výše.</div>
+
+  <!-- ==========================================================================
+       TOOL-ROOT - Kontejner nastroje s vysledky
+       Pocatecne skryty (display: none), po kliknuti na tlacitko se odemkne
+       ============================================================================= -->
+  <div id="tool-root">
+
+    <!-- ===== TOPBAR - Horni lišta s informacemi o behu ===== -->
+    <header class="topbar">
+      <div class="brand">
+        <div>
+          <div class="brand-title">device.trace — vaše výsledky</div>
+          <div class="brand-sub" id="generated-at">Vygenerovano: &hellip;</div>
+        </div>
+      </div>
+      <div class="status-line">
+        <span class="status-dot" id="status-dot" aria-hidden="true"></span>
+        <span id="status">Nacitam&hellip;</span>
+      </div>
+    </header>
+
+    <!-- ===== SCORE PANEL - Zobrazeni skore unikatnosti ===== -->
+    <section class="score-panel" id="score-card" aria-live="polite"></section>
+
+    <!-- ===== DIFF PANEL - Zmeny od posledni navstevy ===== -->
+    <section class="diff-panel">
+      <h2 class="diff-heading">Zmeny od posledni navstevy</h2>
+      <div id="diff-summary" class="neutral">&hellip;</div>
+    </section>
+
+    <!-- ===== TOOLBAR - Vyhledavani a tlacitka ===== -->
+    <div class="toolbar">
+      <!-- Vyhledavaci pole pro filtrovani radku -->
+      <input type="search" id="search-input" placeholder="Filtrovat radky (napr. gpu, ip, canvas)&hellip;" aria-label="Filtrovat vysledky">
+      <div class="toolbar-buttons">
+        <button id="btn-refresh" class="btn btn-primary">Obnovit</button>    <!-- Znovu spusti sbirani dat -->
+        <button id="btn-sections" class="btn">Sekce</button>                  <!-- Otevre/zavre prepinace sekci -->
+        <button id="btn-copy" class="btn">Kopirovat</button>                  <!-- Zkopiruje vysledky do schranky -->
+        <button id="btn-export" class="btn">Export JSON</button>              <!-- Stahne JSON soubor -->
+        <button id="btn-clear-history" class="btn btn-ghost">Smazat historii</button>  <!-- Vymaze localStorage -->
+      </div>
+    </div>
+
+    <!-- ===== SECTION TOGGLES - Prepinace pro skryvani sekci ===== -->
+    <div id="section-toggles" class="section-toggles" role="group" aria-label="Prepinace sekci"></div>
+
+    <!-- ===== OUTPUT - Hlavni kontejner pro zobrazeni vysledku ===== -->
+    <!-- dynamicky generovany obsah ze script.js -->
+    <main id="output" aria-live="polite"></main>
+
+    <!-- ===== FOOT-NOTE - Poznamka o soukromi ===== -->
+    <p class="foot-note">
+      Vsechna data se pocitaji lokalne ve vasem prohlizeci. Verejna IP jde pres
+      <code>api.ipify.org</code>; nic jineho neopousti toto zarizeni. Historie
+      beznich je v <code>localStorage</code> tohoto prohlizece a nikam se neodesila.
+    </p>
+  </div>
+
+  <!-- ===== COLOPHON - Paticka stranky ===== -->
+  <p class="colophon">Sedm signálů výše, žádné skryté sledování navíc. Zdrojový kód je jen HTML/CSS/JS, klidně si ho prohlédněte.</p>
+
+</div>
+
+<!-- =============================================================================
+     SKRIPTY - Nacteni JavaScript souboru
+     - script.js: Hlavni logika (sbirani dat, renderovani, fingerprint)
+     - page.js: Ovladani zobrazeni nastroje (prepinani mezi uvodem a vysledky)
+     ============================================================================= -->
+<script src="script.js"></script>
+<script src="page.js"></script>
+</body>
+</html>

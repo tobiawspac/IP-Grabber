@@ -1,0 +1,337 @@
+/* =============================================================================
+ * TOOL.CSS - Styly pro vysledky nastroje device.trace
+ * =============================================================================
+ * Tento soubor obsahuje styly pro:
+ *   - Horni lištu (topbar) s informacemi o behu
+ *   - Panel skore (score-panel)
+ *   - Panel zmen (diff-panel)
+ *   - Toolbar s vyhledavanim a tlacitky
+ *   - Prepinace sekci
+ *   - Tabulky s vysledky
+ * ============================================================================= */
+
+
+/* -----------------------------------------------------------------------------
+ * CSS PROMENNE - Barvy a fonty
+ * -----------------------------------------------------------------------------
+ * Zmenou techto promennych jednoduse upravite celou vizualni stranku
+ */
+:root {
+  --bg: #fbfaf7;           /* Pozadi stranky */
+  --paper: #ffffff;         /* Pozadi karet a panelu */
+  --ink: #1c1b18;          /* Hlavni text */
+  --ink-dim: #57544c;      /* Mene dulezity text */
+  --ink-faint: #948f82;    /* Pococeny text (popisky, metadata) */
+  --line: #ddd8cc;         /* Ohraniceni a oddelovace */
+  --line-strong: #c7c1b2;  /* Silnejsi ohraniceni */
+  --accent: #7a2e1d;       /* Primarni barva (cervenohneda) */
+  --accent-bg: #f7ece7;    /* Pozadi pro accent prvky */
+  --ok: #2f6f4f;           /* Barva pro uspesne stavy (zelena) */
+  --warn: #8a5a13;         /* Barva pro varovani (zluta/oranzova) */
+  --err: #a5301f;          /* Barva pro chyby (cervena) */
+  --serif: Georgia, 'Iowan Old Style', 'Palatino Linotype', Palatino, serif;
+  --sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  --mono: 'JetBrains Mono', ui-monospace, Consolas, monospace;
+}
+
+
+/* -----------------------------------------------------------------------------
+ * ZAKLADNI RESET A TYPOGRAFIE
+ * ----------------------------------------------------------------------------- */
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 17px;
+  line-height: 1.65;
+}
+
+code { font-family: var(--mono); }
+
+button { font-family: inherit; cursor: pointer; }
+button:disabled { cursor: not-allowed; }
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+
+/* =============================================================================
+ * TOPBAR - Horni lišta s informacemi
+ * ----------------------------------------------------------------------------- */
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.9rem 0;
+  border-bottom: 1px solid var(--line);
+  flex-wrap: wrap;
+}
+
+/* Branding - nazev a cas */
+.brand { display: flex; align-items: center; gap: 0.6rem; }
+.brand-title { font-family: var(--serif); font-weight: 700; font-size: 1.05rem; }
+.brand-sub { font-size: 0.78rem; color: var(--ink-faint); font-family: var(--mono); }
+
+/* Stavovy radek (nacitam... / hotovo) */
+.status-line { display: flex; align-items: center; gap: 0.5rem; font-size: 0.82rem; color: var(--ink-dim); }
+.status-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--ok); }
+
+
+/* =============================================================================
+ * SCORE PANEL - Zobrazeni skore unikatnosti
+ * ----------------------------------------------------------------------------- */
+.score-panel {
+  margin: 1.2rem 0;
+  padding: 1rem 1.2rem;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  display: flex;
+  gap: 1.1rem;
+  align-items: center;
+}
+
+/* Cislo skore */
+.score-number {
+  font-family: var(--mono);
+  font-size: 2.1rem;
+  font-weight: 700;
+  line-height: 1;
+  min-width: 3ch;
+  text-align: center;
+}
+
+/* Textove info o skore */
+.score-body { flex: 1; min-width: 0; }
+.score-label { font-size: 0.86rem; color: var(--ink); margin-bottom: 0.3rem; }
+.score-body > div:nth-child(2) { font-size: 0.8rem; color: var(--ink-dim); margin-bottom: 0.55rem; }
+
+/* Progress bar pro skore */
+.score-bar-track { height: 5px; background: var(--line); border-radius: 999px; overflow: hidden; }
+.score-bar-fill { height: 100%; border-radius: 999px; transition: width 0.4s ease; }
+
+
+/* =============================================================================
+ * DIFF PANEL - Zmeny od posledni navstevy
+ * ----------------------------------------------------------------------------- */
+.diff-panel {
+  margin: 0 0 1.2rem;
+  padding: 0.9rem 1.2rem;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+}
+
+.diff-heading {
+  margin: 0 0 0.4rem;
+  font-size: 0.74rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--ink-faint);
+  font-weight: 600;
+}
+
+#diff-summary { font-size: 0.86rem; }
+#diff-summary.neutral { color: var(--ink-dim); }
+#diff-summary.changed { color: var(--warn); }
+#diff-summary ul { margin: 0.5rem 0 0; padding-left: 1.1rem; color: var(--ink); font-family: var(--mono); font-size: 0.8rem; }
+#diff-summary li { margin-bottom: 0.25rem; }
+
+
+/* =============================================================================
+ * TOOLBAR - Vyhledavani a tlacitka
+ * ----------------------------------------------------------------------------- */
+.toolbar {
+  margin: 0 0 0.8rem;
+  display: flex;
+  gap: 0.55rem;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+/* Vyhledavaci pole */
+#search-input {
+  flex: 1;
+  min-width: 200px;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  color: var(--ink);
+  padding: 0.5rem 0.7rem;
+  font-family: var(--sans);
+  font-size: 0.85rem;
+}
+
+#search-input::placeholder { color: var(--ink-faint); }
+
+/* Kontejner tlacitek */
+.toolbar-buttons { display: flex; gap: 0.45rem; flex-wrap: wrap; }
+
+
+/* =============================================================================
+ * TLACITKA
+ * ----------------------------------------------------------------------------- */
+.btn {
+  background: var(--paper);
+  border: 1px solid var(--line-strong);
+  color: var(--ink);
+  padding: 0.48rem 0.75rem;
+  border-radius: 5px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.btn:hover { background: var(--accent-bg); border-color: var(--accent); }
+
+/* Primarni tlacitko (vyraznejsi) */
+.btn-primary { border-color: var(--accent); color: var(--accent); }
+
+/* Ghost tlacitko (neviditelne, cervene pri hoveru) */
+.btn-ghost { border-color: transparent; color: var(--ink-faint); }
+.btn-ghost:hover { border-color: var(--err); color: var(--err); background: #fbeceb; }
+
+/* Plne tlacitko (cerno-bile) */
+.btn-fill { background: var(--ink); border-color: var(--ink); color: #fff; }
+.btn-fill:hover { background: var(--accent); border-color: var(--accent); }
+.btn-fill:disabled { background: var(--line-strong); border-color: var(--line-strong); color: #fff; }
+
+
+/* =============================================================================
+ * PREPINACE SEKCI - Skryvani a zobrazovani jednotlivych casti
+ * ----------------------------------------------------------------------------- */
+.section-toggles {
+  max-height: 0;
+  overflow: hidden;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem 0.9rem;
+  border-radius: 6px;
+  transition: max-height 0.2s ease, padding 0.2s ease;
+  margin-bottom: 0.4rem;
+}
+
+/* Otevreny stav - zobrazi se prepinace */
+.section-toggles.open {
+  max-height: 320px;
+  padding: 0.8rem 1rem;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  overflow-y: auto;
+}
+
+/* Jednotlivy prepinac */
+.section-toggles label {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.78rem;
+  color: var(--ink-dim);
+  cursor: pointer;
+}
+
+.section-toggles input[type="checkbox"] {
+  accent-color: var(--accent);
+  width: 14px;
+  height: 14px;
+}
+
+
+/* =============================================================================
+ * TABULKY S VYSLEDKY
+ * ----------------------------------------------------------------------------- */
+
+/* Grid layout - dvou sloupcovy na sirsi obrazovce */
+main#output {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 0.8rem;
+  align-items: start;
+}
+
+/* Karta jedne sekce */
+.section {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+/* Hlavicka sekce */
+.section h2 {
+  margin: 0;
+  padding: 0.55rem 0.85rem;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--accent);
+  background: var(--accent-bg);
+  border-bottom: 1px solid var(--line);
+  font-weight: 700;
+}
+
+/* Tabulka uvnitr sekce */
+.section table { width: 100%; border-collapse: collapse; }
+
+.section td {
+  padding: 0.42rem 0.85rem;
+  vertical-align: top;
+  font-size: 0.78rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.section tr:last-child td { border-bottom: none; }
+
+/* Sloupec s klicem (nazvem polozky) */
+.section td.key {
+  color: var(--ink-dim);
+  white-space: nowrap;
+  width: 44%;
+}
+
+/* Sloupec s hodnotou */
+.section td.value {
+  color: var(--ink);
+  word-break: break-all;
+  font-family: var(--mono);
+  font-size: 0.75rem;
+}
+
+/* Stav "nacita se..." */
+.section td.value.pending {
+  color: var(--ink-faint);
+  font-style: italic;
+  font-family: var(--sans);
+}
+
+/* Stav "chyba" */
+.section td.value.error {
+  color: var(--err);
+  font-family: var(--sans);
+}
+
+
+/* =============================================================================
+ * PATICKA A DROBNE PRVKY
+ * ----------------------------------------------------------------------------- */
+
+/* Poznamka pod tabulkami */
+.foot-note {
+  margin: 1.6rem 0 0;
+  padding-top: 0.9rem;
+  border-top: 1px solid var(--line);
+  color: var(--ink-faint);
+  font-size: 0.76rem;
+}
+
+.foot-note code {
+  color: var(--ink-dim);
+  background: var(--accent-bg);
+  padding: 0.05rem 0.3rem;
+  border-radius: 3px;
+}
