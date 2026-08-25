@@ -1,32 +1,28 @@
-# IP Grabber — Device Fingerprint Tool
+# IP Grabber — Browser Privacy Check
 
-Co o vás ví váš prohlížeč — a jak to omezit.
+What does a website know about you? Click once and see.
 
-## Co to dělá?
+## What does it show?
 
-Nástroj spustí 7 testů přímo ve vašem prohlížeči a ukáže, jaké signály vysíláte na každou navštívenou stránku:
+- **Public IP address** — via api.ipify.org
+- **Local time & timezone**
+- **Device type** — desktop vs mobile/tablet
+- **Operating system** — Windows / macOS / Linux / Android / iOS
+- **Browser** — Chrome / Firefox / Safari / Edge / Opera
+- **Battery status** — level and charging state
 
-1. **Veřejná IP adresa** — přes api.ipify.org
-2. **Lokální IP přes WebRTC** — leak i přes VPN
-3. **Canvas fingerprint** — otisk GPU/renderingu
-4. **Audio fingerprint** — otisk přes Web Audio API
-5. **Nainstalované fonty** — detekce fontů na systému
-6. **GPU přes WebGL/WebGPU** — výrobce a model grafické karty
-7. **Kombinovaný device ID** — SHA-256 hash ze všech signálů
+Everything runs locally in the browser. Nothing is stored or sent anywhere except the IP lookup.
 
-Nic se neposílá nikam kromě dotazu na veřejnou IP. Vše probíhá lokálně v prohlížeči.
+## Files
 
-## Funkce
+```
+index.html      — page markup
+page.css        — page styles
+tool.css        — result styles
+script.js       — data collection
+```
 
-- Skóre unikátosti (0–100)
-- Porovnání s poslední návštěvou (historie v localStorage)
-- Filtrování výsledků
-- Kopírování do schránky
-- Export JSON
-- Přepínání sekcí
-- **CZ / EN** lokalizace
-
-## Nasazení
+## Deployment
 
 ### Cloudflare
 
@@ -36,19 +32,8 @@ wrangler deploy
 
 ### GitHub Pages
 
-Push na `main` branch a nastav Pages v nastavení repo.
-
-## Soubory
-
-```
-index.html      — česká verze
-index.en.html   — anglická verze
-page.css        — styly stránky
-tool.css        — styly nástroje (výsledky)
-script.js       — logika sběru dat a renderování
-page.js         — ovládání zobrazení nástroje
-```
+Push to `main` and enable Pages in repo settings.
 
 ## License
 
-Volné k použití.
+Free to use.
