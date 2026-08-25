@@ -43,7 +43,7 @@ async function getPublicIp(){
 document.getElementById('btn-reveal').addEventListener('click', async () => {
   document.getElementById('tool-gate').style.display = 'none'
   const root = document.getElementById('tool-root')
-  root.classList.add('unlocked')
+  root.style.display = 'block'
   root.scrollIntoView({ behavior: 'smooth', block: 'start' })
 
   const ua = navigator.userAgent

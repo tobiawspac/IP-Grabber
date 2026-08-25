@@ -5,26 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>What does this page know about you?</title>
 <meta name="description" content="Click once and see the basics every website can see: your IP, time, battery state, device type, OS and browser. Nothing is stored or sent anywhere.">
-<style>
-*{box-sizing:border-box}
-body{margin:0;font-family:system-ui,-apple-system,'Segoe UI',sans-serif;background:#0e1112;color:#d6d6d6;line-height:1.5}
-.page-wrap{max-width:680px;margin:0 auto;padding:3rem 1rem 4rem}
-.masthead h1{font-size:1.7rem;margin:0 0 0.5rem;color:#f2f2f2}
-#tool-gate{text-align:center;margin:2rem 0}
-.btn{font:inherit;cursor:pointer;border-radius:4px;border:1px solid #2a2f31;background:#161a1b;color:#d6d6d6;padding:0.6rem 1.2rem}
-.btn-fill{background:#39c48e;border-color:#39c48e;color:#08110c;font-weight:600;width:100%;max-width:420px}
-.btn-fill:hover{filter:brightness(1.1)}
-.section{background:#15191a;border:1px solid #242a2c;border-radius:6px;overflow:hidden;margin-top:2rem}
-.section h2{margin:0;padding:0.55rem 0.9rem;font-size:0.72rem;text-transform:uppercase;letter-spacing:0.06em;color:#39c48e;background:#13201b;border-bottom:1px solid #242a2c}
-.section table{width:100%;border-collapse:collapse}
-.section td{padding:0.45rem 0.9rem;font-size:0.85rem;border-bottom:1px solid #1d2325}
-.section tr:last-child td{border-bottom:none}
-.section td.key{color:#8a9296;white-space:nowrap;width:44%}
-.section td.value{word-break:break-all;font-family:ui-monospace,Consolas,monospace;font-size:0.8rem}
-.colophon{color:#5d666a;font-size:0.8rem;text-align:center;margin-top:3rem}
-#tool-root{display:none}
-#tool-root.unlocked{display:block}
-</style>
+</head>
+<body style="text-align:center;font-family:sans-serif">
 </head>
 <body>
 <div class="page-wrap">
@@ -34,7 +16,7 @@ body{margin:0;font-family:system-ui,-apple-system,'Segoe UI',sans-serif;backgrou
 
 <div id="tool-gate"><button id="btn-reveal" class="btn btn-fill">Show my info</button></div>
 
-<div id="tool-root">
+<div id="tool-root" style="display:none">
 <main id="output">
 <div class="section">
 <h2>Results</h2>
