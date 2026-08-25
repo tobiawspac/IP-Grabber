@@ -7,34 +7,27 @@
 <meta name="description" content="Click once and see the basics every website can see: your IP, time, battery state, device type, OS and browser. Nothing is stored or sent anywhere.">
 </head>
 <body style="text-align:center;font-family:sans-serif">
-</head>
-<body>
-<div class="page-wrap">
-<header class="masthead">
+
+<header>
 <h1>What does this page know about you?</h1>
+<p>No cookies, no login. Every site can see roughly these basics.</p>
 </header>
 
-<div id="tool-gate"><button id="btn-reveal" class="btn btn-fill">Show my info</button></div>
+<button id="btn-reveal" style="font-size:1rem;padding:0.7rem 1.4rem;cursor:pointer">Show my info</button>
 
-<div id="tool-root" style="display:none">
-<main id="output">
-<div class="section">
-<h2>Results</h2>
-<table><tbody>
-<tr><td class="key">Public IP</td><td class="value" id="v-ip">loading…</td></tr>
-<tr><td class="key">Local time</td><td class="value" id="v-time">…</td></tr>
-<tr><td class="key">Timezone</td><td class="value" id="v-tz">…</td></tr>
-<tr><td class="key">Device type</td><td class="value" id="v-device">…</td></tr>
-<tr><td class="key">Operating system</td><td class="value" id="v-os">…</td></tr>
-<tr><td class="key">Browser</td><td class="value" id="v-browser">…</td></tr>
-<tr><td class="key">Battery</td><td class="value" id="v-battery">…</td></tr>
+<div id="results" style="display:none;max-width:640px;margin:2rem auto;text-align:center">
+<table style="margin:0 auto"><tbody>
+<tr><td style="padding:0.4rem 1rem;color:gray">Public IP</td><td id="v-ip">loading…</td></tr>
+<tr><td style="padding:0.4rem 1rem;color:gray">Local time</td><td id="v-time">…</td></tr>
+<tr><td style="padding:0.4rem 1rem;color:gray">Timezone</td><td id="v-tz">…</td></tr>
+<tr><td style="padding:0.4rem 1rem;color:gray">Device type</td><td id="v-device">…</td></tr>
+<tr><td style="padding:0.4rem 1rem;color:gray">Operating system</td><td id="v-os">…</td></tr>
+<tr><td style="padding:0.4rem 1rem;color:gray">Browser</td><td id="v-browser">…</td></tr>
+<tr><td style="padding:0.4rem 1rem;color:gray">Battery</td><td id="v-battery">…</td></tr>
 </tbody></table>
-</div>
-</main>
+<p style="color:gray;font-size:0.8rem">Everything runs locally — only the IP lookup leaves the page (api.ipify.org).</p>
 </div>
 
-<p class="colophon">Just HTML / JS — view source if you want.</p>
-</div>
 <script src="script.js"></script>
 </body>
 </html>
